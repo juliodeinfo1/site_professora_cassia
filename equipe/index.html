@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Empresa</title>
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background: #f8f9fa;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
+            background: #f8f9fa;
         }
         #matrix-bg {
             position: fixed;
@@ -21,40 +18,14 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 0;
             pointer-events: none;
-        }
-        .content-container {
-            max-width: 600px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-            padding: 32px 24px;
-            z-index: 1;
-            position: relative;
         }
     </style>
 </head>
 <body>
     <canvas id="matrix-bg"></canvas>
-    <div class="content-container text-center">
-        <h1 class="mb-4 text-primary">
-            Equipe completa dos "Moleculas"
-        </h1>
-        <h2 class="mb-3 h4 text-secondary">
-            Informações básicas:
-        </h2>
-        <p class="mb-4">
-            Essa aqui é a equipe dos alunos formados por INFO 1 para ajudar a professora Cássia.
-        </p>
-        <a href="https://juliodeinfo1.github.io/site_professora_cassia/inicio/" target="_blank" class="btn btn-success">
-            Início
-        </a>
-    </div>
-    <!-- Bootstrap JS Bundle CDN (opcional, para componentes interativos) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Matrix background indo da direita pra esquerda, nomes completos digitando e letras aleatórias
+        // Apenas números aleatórios indo da direita para a esquerda
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
 
@@ -63,16 +34,11 @@
             canvas.height = window.innerHeight;
         }
         resizeCanvas();
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            initMatrix();
-        });
+        window.addEventListener('resize', resizeCanvas);
 
-        // Caracteres possíveis e nomes
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
-        const names = ["Júlio", "Alan", "Matsen", "Wendel", "Nicolas"];
+        const numbers = '0123456789';
         const fontSize = 22;
-        let columns, drops, nameAnimations;
+        let columns, drops;
 
         function initMatrix() {
             columns = Math.floor(canvas.height / fontSize);
@@ -80,27 +46,9 @@
             for (let i = 0; i < columns; i++) {
                 drops[i] = Math.random() * canvas.width;
             }
-            // Inicializa animações dos nomes
-            nameAnimations = [];
-            const nameLines = [];
-            // Escolhe linhas aleatórias para os nomes, sem repetir
-            while (nameLines.length < names.length) {
-                let line = Math.floor(Math.random() * columns);
-                if (!nameLines.includes(line)) nameLines.push(line);
-            }
-            for (let i = 0; i < names.length; i++) {
-                nameAnimations.push({
-                    name: names[i],
-                    line: nameLines[i],
-                    x: canvas.width + Math.random() * 200,
-                    progress: 0,
-                    speed: fontSize * (0.5 + Math.random() * 0.5),
-                    typingDelay: 0,
-                    typed: false
-                });
-            }
         }
         initMatrix();
+        window.addEventListener('resize', initMatrix);
 
         function draw() {
             ctx.fillStyle = 'rgba(248,249,250,0.15)';
@@ -109,12 +57,8 @@
             ctx.font = fontSize + "px monospace";
             ctx.fillStyle = "#198754";
 
-            // Letras aleatórias em todas as linhas
-            for (let i = 0; i < columns; i++) {
-                // Não desenha letra aleatória se a linha está com nome sendo digitado e já terminou de digitar
-                const nameAnim = nameAnimations.find(n => n.line === i && n.typed);
-                if (nameAnim) continue;
-                let text = letters[Math.floor(Math.random() * letters.length)];
+            for (let i = 0; i < drops.length; i++) {
+                let text = numbers[Math.floor(Math.random() * numbers.length)];
                 ctx.fillText(text, drops[i], i * fontSize + fontSize);
 
                 // Move para a esquerda
@@ -123,36 +67,6 @@
                 // Se saiu da tela, volta para a direita
                 if (drops[i] < 0) {
                     drops[i] = canvas.width + Math.random() * 100;
-                }
-            }
-
-            // Animação dos nomes
-            for (let anim of nameAnimations) {
-                // Se ainda não terminou de digitar
-                if (anim.progress < anim.name.length) {
-                    // Efeito de digitação: aumenta progress aos poucos
-                    if (anim.typingDelay <= 0) {
-                        anim.progress++;
-                        anim.typingDelay = 2 + Math.floor(Math.random() * 2); // velocidade de digitação
-                    } else {
-                        anim.typingDelay--;
-                    }
-                } else {
-                    anim.typed = true;
-                }
-                // Mostra o nome sendo "digitado"
-                ctx.fillText(anim.name.substring(0, anim.progress), anim.x, anim.line * fontSize + fontSize);
-
-                // Move para a esquerda
-                anim.x -= anim.speed;
-
-                // Se saiu da tela, reinicia com novo nome
-                if (anim.x < -fontSize * anim.name.length) {
-                    anim.name = names[Math.floor(Math.random() * names.length)];
-                    anim.progress = 0;
-                    anim.x = canvas.width + Math.random() * 100;
-                    anim.speed = fontSize * (0.5 + Math.random() * 0.5);
-                    anim.typed = false;
                 }
             }
         }
