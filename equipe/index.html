@@ -11,6 +11,14 @@
             padding: 0;
             overflow: hidden;
             background: #f8f9fa;
+            height: 100%;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
         }
         #matrix-bg {
             position: fixed;
@@ -19,6 +27,7 @@
             width: 100vw;
             height: 100vh;
             pointer-events: none;
+            z-index: 0;
         }
         .content-container {
             max-width: 600px;
@@ -28,18 +37,17 @@
             padding: 32px 24px;
             z-index: 1;
             position: relative;
-            margin: auto;
-            top: 0; left: 0; right: 0; bottom: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <canvas id="matrix-bg"></canvas>
-    <div class="content-container text-center">
+    <div class="content-container">
         <h1 class="mb-4" style="color:#198754;">
             Equipe completa dos "Moleculas"
         </h1>
