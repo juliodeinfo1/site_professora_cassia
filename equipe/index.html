@@ -65,26 +65,37 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Caracteres possíveis
+        // Caracteres possíveis e nomes
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+        const names = ["Júlio", "Alan", "Matsen", "Wendel", "Nicolas"];
         const fontSize = 22;
-        const columns = Math.floor(canvas.height / fontSize);
-        // Para cada linha, uma posição horizontal
-        const drops = [];
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.random() * canvas.width;
+        let columns, drops;
+
+        function initMatrix() {
+            columns = Math.floor(canvas.height / fontSize);
+            drops = [];
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * canvas.width;
+            }
         }
+        initMatrix();
+        window.addEventListener('resize', initMatrix);
 
         function draw() {
-            ctx.fillStyle = 'rgba(248,249,250,0.15)'; // fundo translúcido
+            ctx.fillStyle = 'rgba(248,249,250,0.15)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.font = fontSize + "px monospace";
-            ctx.fillStyle = "#198754"; // verde Bootstrap
+            ctx.fillStyle = "#198754";
 
             for (let i = 0; i < drops.length; i++) {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                // x = drops[i], y = i*fontSize
+                // 10% de chance de aparecer um nome, senão letra aleatória
+                let text;
+                if (Math.random() < 0.10) {
+                    text = names[Math.floor(Math.random() * names.length)];
+                } else {
+                    text = letters[Math.floor(Math.random() * letters.length)];
+                }
                 ctx.fillText(text, drops[i], i * fontSize + fontSize);
 
                 // Move para a esquerda
