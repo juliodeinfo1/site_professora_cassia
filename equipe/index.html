@@ -54,7 +54,7 @@
     <!-- Bootstrap JS Bundle CDN (opcional, para componentes interativos) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Matrix background indo da direita pra esquerda
+        // Matrix background indo da direita pra esquerda, formando nomes letra por letra
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
 
@@ -63,23 +63,39 @@
             canvas.height = window.innerHeight;
         }
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initMatrix();
+        });
 
         // Caracteres possíveis e nomes
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
         const names = ["Júlio", "Alan", "Matsen", "Wendel", "Nicolas"];
         const fontSize = 22;
-        let columns, drops;
+        let columns, drops, wordDrops;
 
         function initMatrix() {
             columns = Math.floor(canvas.height / fontSize);
             drops = [];
+            wordDrops = [];
             for (let i = 0; i < columns; i++) {
-                drops[i] = Math.random() * canvas.width;
+                // Decide se essa coluna será uma palavra ou letras aleatórias
+                if (Math.random() < 0.13) { // ~13% das colunas são palavras
+                    const name = names[Math.floor(Math.random() * names.length)];
+                    wordDrops.push({
+                        name: name,
+                        progress: 0,
+                        x: Math.random() * canvas.width,
+                        speed: fontSize * (0.5 + Math.random() * 0.5)
+                    });
+                    drops.push(null); // Placeholder para manter alinhamento
+                } else {
+                    drops.push(Math.random() * canvas.width);
+                    wordDrops.push(null);
+                }
             }
         }
         initMatrix();
-        window.addEventListener('resize', initMatrix);
 
         function draw() {
             ctx.fillStyle = 'rgba(248,249,250,0.15)';
@@ -88,22 +104,40 @@
             ctx.font = fontSize + "px monospace";
             ctx.fillStyle = "#198754";
 
-            for (let i = 0; i < drops.length; i++) {
-                // 10% de chance de aparecer um nome, senão letra aleatória
-                let text;
-                if (Math.random() < 0.10) {
-                    text = names[Math.floor(Math.random() * names.length)];
+            for (let i = 0; i < columns; i++) {
+                if (wordDrops[i]) {
+                    // Palavra sendo formada letra por letra
+                    const wd = wordDrops[i];
+                    let text = wd.name.substring(0, wd.progress + 1);
+                    ctx.fillText(text, wd.x, i * fontSize + fontSize);
+
+                    // Move para a esquerda
+                    wd.x -= wd.speed;
+
+                    // Avança para a próxima letra de tempos em tempos
+                    if (Math.random() < 0.15 && wd.progress < wd.name.length - 1) {
+                        wd.progress++;
+                    }
+
+                    // Se saiu da tela, reinicia com novo nome
+                    if (wd.x < -fontSize * wd.name.length) {
+                        wd.name = names[Math.floor(Math.random() * names.length)];
+                        wd.progress = 0;
+                        wd.x = canvas.width + Math.random() * 100;
+                        wd.speed = fontSize * (0.5 + Math.random() * 0.5);
+                    }
                 } else {
-                    text = letters[Math.floor(Math.random() * letters.length)];
-                }
-                ctx.fillText(text, drops[i], i * fontSize + fontSize);
+                    // Letras aleatórias
+                    let text = letters[Math.floor(Math.random() * letters.length)];
+                    ctx.fillText(text, drops[i], i * fontSize + fontSize);
 
-                // Move para a esquerda
-                drops[i] -= fontSize * (0.5 + Math.random() * 0.5);
+                    // Move para a esquerda
+                    drops[i] -= fontSize * (0.5 + Math.random() * 0.5);
 
-                // Se saiu da tela, volta para a direita
-                if (drops[i] < 0) {
-                    drops[i] = canvas.width + Math.random() * 100;
+                    // Se saiu da tela, volta para a direita
+                    if (drops[i] < 0) {
+                        drops[i] = canvas.width + Math.random() * 100;
+                    }
                 }
             }
         }
