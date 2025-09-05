@@ -3,119 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Empresa</title>
-    <style>
-        html, body {
-            width: 100vw;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background: #f8f9fa;
-            height: 100%;
-        }
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            position: relative;
-        }
-        #matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .content-container {
-            max-width: 600px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-            padding: 32px 24px;
-            z-index: 1;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
-    <canvas id="matrix-bg"></canvas>
-    <div class="content-container">
-        <h1 class="mb-4" style="color:#198754;">
-            Equipe completa dos "Moleculas"
-        </h1>
-        <h2 class="mb-3 h4" style="color:#6c757d;">
-            Informações básicas:
-        </h2>
-        <p class="mb-4">
-            Essa aqui é a equipe dos alunos formados por INFO 1 para ajudar a professora Cássia.
-        </p>
-        <a href="https://juliodeinfo1.github.io/site_professora_cassia/inicio/" target="_blank" style="background:#198754;color:#fff;padding:10px 24px;border-radius:6px;text-decoration:none;">
-            Início
-        </a>
-    </div>
-    <script>
-        // Apenas números aleatórios indo da direita para a esquerda
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const numbers = '0123456789';
-        const fontSize = 22;
-        let columns, drops;
-
-        function initMatrix() {
-            columns = Math.floor(canvas.height / fontSize);
-            drops = [];
-            for (let i = 0; i < columns; i++) {
-                drops[i] = Math.random() * canvas.width;
-            }
-        }
-        initMatrix();
-        window.addEventListener('resize', initMatrix);
-
-        function draw() {
-            ctx.fillStyle = 'rgba(248,249,250,0.15)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.font = fontSize + "px monospace";
-            ctx.fillStyle = "#198754";
-
-            for (let i = 0; i < drops.length; i++) {
-                let text = numbers[Math.floor(Math.random() * numbers.length)];
-                ctx.fillText(text, drops[i], i * fontSize + fontSize);
-
-                // Move para a esquerda
-                if (drops[i] > 0) {                drops[i] -= fontSize * (0.5 + Math.random() * 0.5);
-                    drops[i] -= Math.random() * 10;
-                } else {   // Se saiu da tela, volta para a direita
-                    drops[i] = Math.random() * canvas.width;         if (drops[i] < 0) {
-                }             drops[i] = canvas.width + Math.random() * 100;
-
-
-
-
-
-
-
-</html></body>    </script>        setInterval(draw, 60);        }            }                }
-            }
-        }
-
-        setInterval(draw, 60);
-    </script>
+    <h1>Equipe completa dos "Moleculas"</h1>
+    <h2>Informações básicas:</h2>
+    <p>
+        Essa aqui é a equipe dos alunos formados por INFO 1 para ajudar a professora Cássia.
+    </p>
+    <a href="https://juliodeinfo1.github.io/site_professora_cassia/inicio/" target="_blank">
+        Início
+    </a>
 </body>
 </html>
