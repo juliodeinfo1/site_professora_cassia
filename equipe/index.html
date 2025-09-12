@@ -1,14 +1,80 @@
 <!DOCTYPE html>
 <html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Empresa</title>
+    <title>Equipe</title>
     <style>
         body {
-            background: #f8f9fa;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #111;
+            color: #fff;
+        }
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            display: block;
+        }
+        h1 {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <h1>Equipe</h1>
+    <!-- Conteúdo da equipe -->
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        // Ajusta o tamanho do canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Caracteres para o efeito (números)
+        const chars = '0123456789';
+        const fontSize = 22;
+        const columns = () => Math.floor(canvas.width / fontSize);
+        let drops = [];
+
+        function initDrops() {
+            drops = [];
+            for (let x = 0; x < columns(); x++) {
+                drops[x] = Math.random() * -20;
+            }
+        }
+        initDrops();
+        window.addEventListener('resize', initDrops);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(17, 17, 17, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = fontSize + 'px monospace';
+            ctx.fillStyle = '#00ff41';
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(draw, 40);
+    </script>
+</body>
+</html>
             justify-content: center;
             margin: 0;
         }
@@ -51,6 +117,7 @@
         <p>
             Essa aqui é a equipe dos alunos formados por INFO 1 para ajudar a professora Cássia.
         </p>
+        <p> Nicolas, Matsen, Wendel, Alan, Júlio</p>
         <a href="https://juliodeinfo1.github.io/site_professora_cassia/inicio/" target="_blank">
             Início
         </a>
