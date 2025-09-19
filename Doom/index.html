@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doom no Navegador</title>
+    <script src="em-dosbox.js"></script>  <!-- Inclua o script do Em-DOSBox -->
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        #doom-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="doom-container">
+        <script>
+            var dosbox = DOSBox("doom-container", {  // Inicia o DOSBox dentro da div
+                cdrom: "./doom-wad/",               // Caminho para os arquivos WAD
+                autoload: "doom.wad"                // Arquivo .wad que será carregado
+            });
+        </script>
+    </div>
+</body>
+</html>
