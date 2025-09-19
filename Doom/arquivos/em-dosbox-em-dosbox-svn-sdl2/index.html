@@ -23,9 +23,14 @@
 <body>
     <div id="doom-container">
         <script>
-            var dosbox = DOSBox("doom-container", {  // Inicia o DOSBox dentro da div
-                cdrom: "./doom-wad/",               // Caminho para os arquivos WAD
-                autoload: "doom.wad"                // Arquivo .wad que será carregado
+            // Inicializa o DOSBox apontando para o executável do DOOM
+            var dosbox = DOSBox("doom-container", {
+                // Caminho para os arquivos do jogo
+                mount: [
+                    ["C", "."] // Monta a pasta atual como C:
+                ],
+                autoload: ["doom.exe"], // Executa doom.exe ao iniciar
+                // Se necessário, adicione outros arquivos na mesma pasta
             });
         </script>
     </div>
