@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>DOOM no Navegador</title>
+    <script src="em-dosbox.js"></script>
+    <style>
+        body { margin: 0; background: #000; }
+        #doom-container { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="doom-container"></div>
+    <script>
+        var dosbox = DOSBox("doom-container", {
+            mount: [
+                ["C", "."]
+            ],
+            autoload: ["doom.exe"]
+        });
+    </script>
+</body>
+</html>
