@@ -1,125 +1,61 @@
 <!DOCTYPE html>
 <html>
-<html>
 <head>
+    <meta charset="UTF-8">
     <title>Equipe</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background: #111;
-            color: #fff;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-        #matrix {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            display: block;
-        }
-        .container {
-            position: relative;
-            z-index: 1;
+            background: #f8f9fa;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin: 0;
+        }
+        .content-container {
+            max-width: 600px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+            text-align: center;
         }
         h1 {
-            margin-bottom: 32px;
-            font-size: 2.5rem;
-            text-align: center;
-            text-shadow: 0 2px 16px #000;
+            color: #198754;
+            margin-bottom: 24px;
         }
-        .bloco {
-            background: rgba(20, 20, 20, 0.85);
-            border-radius: 12px;
-            box-shadow: 0 4px 24px #000a;
-            padding: 32px 40px;
-            margin: 16px 0;
-            max-width: 500px;
-            text-align: center;
+        h2 {
+            color: #6c757d;
+            margin-bottom: 16px;
         }
         a {
-            color: #00ff41;
+            display: inline-block;
+            background: #198754;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 6px;
             text-decoration: none;
+            margin-top: 20px;
             font-weight: bold;
-            transition: color 0.2s;
+            transition: background 0.2s;
         }
         a:hover {
-            color: #fff;
-            text-decoration: underline;
+            background: #145c32;
         }
     </style>
 </head>
 <body>
-    <canvas id="matrix"></canvas>
-    <div class="container">
-        <h1>Equipe</h1>
-        <div class="bloco">
-            <p>Bem-vindo à página da equipe! Aqui você encontra informações sobre os integrantes e links úteis.</p>
-            <a href="../inicio/index.html">Voltar para o início</a>
-        </div>
-        <div class="bloco">
-            <h2>Integrantes do grupo</h2>
-            <ul style="list-style: none; padding: 0; font-size: 1.2rem;">
-                <li>Nicolas</li>
-                <li>Matsen</li>
-                <li>Julio</li>
-                <li>Wendel</li>
-                <li>Alan</li>
-            </ul>
-            <p style="margin-top: 16px; font-weight: bold; color: #00ff41;">Todos eles são muito legais! 😎</p>
-        </div>
+    <div class="content-container">
+        <h1>Equipe completa dos "Moleculas"</h1>
+        <h2>Informações básicas:</h2>
+        <p>
+            Essa aqui é a equipe dos alunos formados por INFO 1 para ajudar a professora Cássia.
+        </p>
+        <p> Nicolas, Matsen, Wendel, Alan, Júlio</p>
+        <a href="https://juliodeinfo1.github.io/site_professora_cassia/inicio/" target="_blank">
+            Início
+        </a>
     </div>
-    <script>
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-
-        // Ajusta o tamanho do canvas
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        // Caracteres para o efeito (números)
-        const chars = '0123456789';
-        const fontSize = 22;
-        const columns = () => Math.floor(canvas.width / fontSize);
-        let drops = [];
-
-        function initDrops() {
-            drops = [];
-            for (let x = 0; x < columns(); x++) {
-                drops[x] = Math.random() * -20;
-            }
-        }
-        initDrops();
-        window.addEventListener('resize', initDrops);
-
-        function draw() {
-            ctx.fillStyle = 'rgba(17, 17, 17, 0.15)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = fontSize + 'px monospace';
-            ctx.fillStyle = '#00ff41';
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-        setInterval(draw, 40);
-    </script>
 </body>
 </html>
             justify-content: center;
